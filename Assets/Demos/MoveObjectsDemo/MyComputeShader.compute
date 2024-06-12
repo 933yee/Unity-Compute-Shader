@@ -1,0 +1,19 @@
+#pragma kernel CSMain
+
+RWStructuredBuffer<float3> CubeBuffer;
+float Time;
+
+[numthreads(1024,1,1)]
+void CSMain (uint3 id : SV_DispatchThreadID)
+{
+    float x = CubeBuffer[id.x].x;
+    float y = CubeBuffer[id.x].y;
+    float z = CubeBuffer[id.x].z;
+
+    // 我亂寫的計算位置的公式
+    CubeBuffer[id.x] = float3(
+            x, 
+            (tan(x/500+ Time) - cos(x/10+z/200 + Time))*100, 
+            sin(x/10+y/200 - Time)*200
+        );
+}
